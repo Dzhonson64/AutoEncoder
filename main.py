@@ -61,8 +61,8 @@ class secondTask():
 
 
 
-    def forward(self, batchData):
-        self.outputFirstLayer = self.sigmoid(batchData.dot(self.W1) + self.b1)
+    def forward(self):
+        self.outputFirstLayer = self.sigmoid(self.batchData.dot(self.W1) + self.b1)
         self.outputSecondLayer = self.sigmoid(self.outputFirstLayer.dot(self.W2) + self.b2)
         self.outputThirdLayer = self.sigmoid(self.outputSecondLayer.dot(self.W3) + self.b3)
         self.outputFourthLayer = self.sigmoid(self.outputThirdLayer.dot(self.W4) + self.b4)
@@ -101,18 +101,17 @@ class secondTask():
 
 def main():
     network = secondTask()
-    batchData = np.arange(0)
-    print(batchData.shape)
     o = np.arange(0)
     for epoch in range(10):
         for i in range(0, network.X.shape[0], network.batch):
-            batchData = network.X[i:i + network.batch]
-            o = network.forward(batchData)
+            network.batchData = network.X[i:i + network.batch]
+            o = network.forward()
             network.backward()
 
 
     for i in range(10):
-        newOutput = network.forward(network.Xt)
+        network.batchData = network.Xt
+        newOutput = network.forward()
         print(network.yt[0])
         network.showPictures(newOutput[0])
 
